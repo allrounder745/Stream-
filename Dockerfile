@@ -1,6 +1,8 @@
 FROM node:18-slim
 
+# Install required dependencies
 RUN apt-get update && apt-get install -y \
+  chromium \
   ffmpeg \
   xvfb \
   x11-utils \
@@ -23,7 +25,12 @@ RUN apt-get update && apt-get install -y \
   xdg-utils \
   && rm -rf /var/lib/apt/lists/*
 
-RUN npm install puppeteer
+# Set environment variable to skip Chromium download
+ENV PUPPETEER_SKIP_DOWNLOAD=true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+
+# Install Puppeteer core (without Chromium)
+RUN npm install puppeteer-core
 
 WORKDIR /app
 COPY . .
