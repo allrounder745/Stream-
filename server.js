@@ -1,10 +1,9 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 const { spawn } = require("child_process");
 
 (async () => {
-  const YOUTUBE_STREAM_URL = "rtmps://mumbai.onestream.studio:19350/live/live_4139402_c9b3iiagb?auth=p_auth_4139402_vm684gnat";
-
   const browser = await puppeteer.launch({
+    executablePath: "/usr/bin/chromium",
     headless: true,
     args: [
       "--no-sandbox",
@@ -30,7 +29,7 @@ const { spawn } = require("child_process");
     "-pix_fmt", "yuv420p",
     "-g", "50",
     "-f", "flv",
-    YOUTUBE_STREAM_URL
+    "rtmps://mumbai.onestream.studio:19350/live/live_4139402_c9b3iiagb?auth=p_auth_4139402_vm684gnat"
   ]);
 
   ffmpeg.stderr.on("data", (data) => console.error(`FFmpeg: ${data}`));
